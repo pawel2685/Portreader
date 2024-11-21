@@ -1,0 +1,13 @@
+# Wyklucz środowisko wirtualne
+venv/
+
+# Pliki tymczasowe Pythona
+*.pyc
+__pycache__/
+
+# Pliki IDE
+.vscode/
+.idea/
+
+# Logi
+*.log
