@@ -4,7 +4,7 @@ class SerialReader:
     def __init__(self, port, baudrate=9600, timeout=1):
         """
         Inicjalizacja portu szeregowego.
-        :param port: Port COM, np. 'COM3'.
+        :param port: Port COM, np. 'COM4'.
         :param baudrate: Prędkość transmisji danych.
         :param timeout: Czas oczekiwania na dane.
         """
