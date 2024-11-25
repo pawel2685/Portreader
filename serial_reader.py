@@ -3,33 +3,33 @@ import serial
 class SerialReader:
     def __init__(self, port, baudrate=9600, timeout=1):
         """
-        Initialize the serial port.
-        :param port: COM port, e.g., 'COM4'.
-        :param baudrate: Baud rate for data transmission.
-        :param timeout: Time to wait for data (in seconds).
+        Inicjalizacja portu szeregowego.
+        :param port: Port COM, np. 'COM4'.
+        :param baudrate: Prędkość transmisji danych.
+        :param timeout: Czas oczekiwania na dane.
         """
         try:
             self.ser = serial.Serial(port, baudrate=baudrate, timeout=timeout)
-            print(f"Connected to port: {port}")
+            print(f"Połączono z portem: {port}")
         except serial.SerialException as e:
-            print(f"Failed to open port {port}: {e}")
+            print(f"Nie udało się otworzyć portu {port}: {e}")
             raise
 
     def read_line(self):
         """
-        Read a single line of data from the serial port.
-        :return: The received line as a string.
+        Odczytaj jedną linię danych z portu szeregowego.
+        :return: Odebrana linia jako string.
         """
         try:
             data = self.ser.readline().decode('utf-8').strip()
             return data
         except Exception as e:
-            print(f"Error reading data: {e}")
+            print(f"Błąd podczas odczytu danych: {e}")
             return None
 
     def close(self):
         """
-        Close the serial port.
+        Zamknij port szeregowy.
         """
         self.ser.close()
-        print("Port closed.")
+        print("Port zamknięty.")

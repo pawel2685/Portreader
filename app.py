@@ -4,7 +4,7 @@ import threading
 import logging
 import time
 
-# Setup logging
+# Konfiguracja logowania
 logging.basicConfig(
     filename='app.log',
     level=logging.INFO,
@@ -12,14 +12,14 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'
 )
 
-# Flask app setup
+# Inicjalizacja aplikacji Flask
 app = Flask(__name__)
 
-# Shared data storage
+# Współdzielony magazyn danych
 data_store = {"COM4": None, "COM1": None}
-data_lock = threading.Lock()  # Lock for thread safety
+data_lock = threading.Lock()  # Zamek dla bezpieczeństwa wątków
 
-# Read COM4 data
+# Funkcja odczytu danych z COM4
 def read_com4_data():
     com4_port = 'COM4'
     baudrate = 9600
@@ -38,7 +38,7 @@ def read_com4_data():
         logging.error(f"COM4 Reader failed: {e}")
         print(f"[ERROR] COM4 Reader failed: {e}")
 
-# Read COM1 data (Scanner)
+# Funkcja odczytu danych z COM1 (skaner USB Serial)
 def read_com1_data():
     com1_port = 'COM1'
     baudrate = 9600
@@ -57,7 +57,7 @@ def read_com1_data():
         logging.error(f"COM1 Reader failed: {e}")
         print(f"[ERROR] COM1 Reader failed: {e}")
 
-# Define the /port endpoint for COM4
+# Endpoint API dla COM4
 @app.route('/port', methods=['GET'])
 def get_com4_data():
     with data_lock:
@@ -65,7 +65,7 @@ def get_com4_data():
         print(f"[API] /port served: {com4_data}")
         return jsonify(com4_data)
 
-# Define the /scanner endpoint for COM1
+# Endpoint API dla COM1 (skaner)
 @app.route('/scanner', methods=['GET'])
 def get_com1_data():
     with data_lock:
@@ -74,11 +74,11 @@ def get_com1_data():
         return jsonify(com1_data)
 
 if __name__ == '__main__':
-    # Start threads for COM4 and COM1
+    # Uruchomienie wątków do odczytu danych z COM4 i COM1
     threading.Thread(target=read_com4_data, daemon=True).start()
     threading.Thread(target=read_com1_data, daemon=True).start()
 
-    # Run the Flask app with Waitress
+    # Uruchomienie serwera Flask z Waitress
     logging.info("Starting server on http://127.0.0.1:8080")
     print("[INFO] Starting server on http://127.0.0.1:8080")
     from waitress import serve
